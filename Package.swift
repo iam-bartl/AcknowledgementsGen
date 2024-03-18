@@ -8,7 +8,6 @@ let package = Package(
     platforms: [.iOS(.v17), .macOS(.v14)],
     products: [
         .executable(name: "AcknowledgementsCLI", targets: ["AcknowledgementsCLI"]),
-        .library(name: "AcknowledgementsGen", targets: ["AcknowledgementsGen"]),
         .library(name: "Acknowledgements", targets: ["Acknowledgements"]),
         .library(name: "AcknowledgementsUI", targets: ["AcknowledgementsUI"])
     ],
