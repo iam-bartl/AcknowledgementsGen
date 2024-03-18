@@ -9,10 +9,16 @@ import SwiftUI
 
 import Acknowledgements
 
-struct AcknowledgementsListView: View {
+public struct AcknowledgementsListView: View {
     let title: String
     let acknowledgements: [Acknowledgement]
-    var body: some View {
+    
+    public init(title: String, acknowledgements: [Acknowledgement]) {
+        self.title = title
+        self.acknowledgements = acknowledgements
+    }
+    
+    public var body: some View {
         List {
             ForEach(acknowledgements, id: \.self) { ack in
                 AcknowledgementRowView(acknowledgement: ack)
