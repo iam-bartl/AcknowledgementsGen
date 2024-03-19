@@ -1,3 +1,5 @@
+Acknowledgments list generator for third party SPM packages.
+
 Add Run Script build phase:
 
 ```
