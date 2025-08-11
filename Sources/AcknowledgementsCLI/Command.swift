@@ -18,11 +18,14 @@ struct AcknowledgementsCLI: AsyncParsableCommand {
     @Argument(transform: URL.init(fileURLWithPath:))
     var outputFile: URL
     
+    @Option
+    var token: String? = nil
+    
     @Flag
     var skipPrivate: Bool = false
 
     mutating func run() async throws {
-        let generator = AcknowledgementsGenerator(input: inputFile, output: outputFile, skipPrivate: skipPrivate)
+        let generator = AcknowledgementsGenerator(input: inputFile, output: outputFile, skipPrivate: skipPrivate, token: token)
         try await generator.run()
     }
 }

@@ -12,11 +12,13 @@ public struct AcknowledgementsGenerator {
     let input: URL
     let output: URL
     let skipPrivate: Bool
+    let token: String?
     
-    public init(input: URL, output: URL, skipPrivate: Bool) {
+    public init(input: URL, output: URL, skipPrivate: Bool, token: String?) {
         self.input = input
         self.output = output
         self.skipPrivate = skipPrivate
+        self.token = token
     }
     
     public func run() async throws {
@@ -32,7 +34,7 @@ public struct AcknowledgementsGenerator {
                 continue
             }
             
-            let request = repository.licenseRequest
+            let request = repository.licenseRequest(token: token)
             let response = try await URLSession(configuration: .ephemeral).data(for: request)
             
             guard
