@@ -11,10 +11,12 @@ import Acknowledgements
 public struct AcknowledgementsGenerator {
     let input: URL
     let output: URL
+    let skipPrivate: Bool
     
-    public init(input: URL, output: URL) {
+    public init(input: URL, output: URL, skipPrivate: Bool) {
         self.input = input
         self.output = output
+        self.skipPrivate = skipPrivate
     }
     
     public func run() async throws {
@@ -24,7 +26,9 @@ public struct AcknowledgementsGenerator {
         var result: [Acknowledgement] = []
         for package in packages {
             guard let repository = package.repository, repository.isGithub == true else {
-                result.append(package.acknowledgement())
+                if !skipPrivate {
+                    result.append(package.acknowledgement())
+                }
                 continue
             }
             
@@ -36,7 +40,9 @@ public struct AcknowledgementsGenerator {
                 httpResponse.statusCode == 200,
                 let license = String(data: response.0, encoding: .utf8)
             else {
-                result.append(package.acknowledgement())
+                if !skipPrivate {
+                    result.append(package.acknowledgement())
+                }
                 continue
             }
             
