@@ -18,7 +18,7 @@ struct AcknowledgementsCLI: AsyncParsableCommand {
     @Argument(transform: URL.init(fileURLWithPath:))
     var outputFile: URL
     
-    @Option
+    @Flag
     var skipPrivate: Bool = false
 
     mutating func run() async throws {
