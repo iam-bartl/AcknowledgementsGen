@@ -1,5 +1,23 @@
 Acknowledgments list generator for third party SPM packages.
 
+Generate a plist from one `Package.resolved` file:
+
+```sh
+swift run AcknowledgementsCLI --input path/to/Package.resolved --output path/to/acknowledgements.plist
+```
+
+Repeat `--input` to combine packages from several files. A package present in more than one file appears once, in the order of its first occurrence:
+
+```sh
+swift run AcknowledgementsCLI --input App/Package.resolved --input Extension/Package.resolved --output acknowledgements.plist
+```
+
+The original positional form remains available:
+
+```sh
+swift run AcknowledgementsCLI path/to/Package.resolved path/to/acknowledgements.plist
+```
+
 **Instalation**
 
 - Add Run Script build phase:

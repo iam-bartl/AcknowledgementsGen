@@ -9,21 +9,34 @@ import Foundation
 import Acknowledgements
 
 public struct AcknowledgementsGenerator {
-    let input: URL
+    let inputs: [URL]
     let output: URL
     let skipPrivate: Bool
     let token: String?
     
     public init(input: URL, output: URL, skipPrivate: Bool, token: String?) {
-        self.input = input
+        self.init(inputs: [input], output: output, skipPrivate: skipPrivate, token: token)
+    }
+
+    public init(inputs: [URL], output: URL, skipPrivate: Bool, token: String?) {
+        self.inputs = inputs
         self.output = output
         self.skipPrivate = skipPrivate
         self.token = token
     }
     
     public func run() async throws {
-        let data = try Data(contentsOf: input)
-        let packages = try ResolvedPackage.decode(data)
+        var packages: [ResolvedPackage] = []
+        var seen: Set<PackageKey> = []
+        for input in inputs {
+            let data = try Data(contentsOf: input)
+            for package in try ResolvedPackage.decode(data) {
+                let key: PackageKey = package.repository.map { .repository($0) } ?? .name(package.name.lowercased())
+                if seen.insert(key).inserted {
+                    packages.append(package)
+                }
+            }
+        }
         
         var result: [Acknowledgement] = []
         for package in packages {
@@ -57,6 +70,11 @@ public struct AcknowledgementsGenerator {
         
         try resultData.write(to: output)
     }
+}
+
+private enum PackageKey: Hashable {
+    case repository(URL)
+    case name(String)
 }
 
 private extension URL {
