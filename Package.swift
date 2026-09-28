@@ -23,6 +23,7 @@ let package = Package(
         ]),
         .target(name: "AcknowledgementsGen", dependencies: ["Acknowledgements"]),
         .target(name: "Acknowledgements"),
-        .target(name: "AcknowledgementsUI", dependencies: ["Acknowledgements"])
+        .target(name: "AcknowledgementsUI", dependencies: ["Acknowledgements"]),
+        .testTarget(name: "AcknowledgementsTests", dependencies: ["AcknowledgementsCLI", "AcknowledgementsGen", "Acknowledgements"])
     ]
 )
